@@ -1,0 +1,46 @@
+!define FORM_UID {fdx32Y}
+
+|comment                                                     |
+|storyboard      |browser test                               |
+|open            |https://fhoeben.typeform.com/to/${FORM_UID}|
+|click           |Start                                      |
+|type            |Fried                                      |
+|press           |enter                                      |
+|type            |example.com                                |
+|click           |Ok                                         |
+|type            |A                                          |
+|press           |enter                                      |
+|type            |9                                          |
+|press           |enter                                      |
+|type            |test@example.com                           |
+|press           |enter                                      |
+|type            |4                                          |
+|press           |enter                                      |
+|type            |A                                          |
+|press           |enter                                      |
+|type            |More beer!                                 |
+|press           |enter                                      |
+|click           |Register!                                  |
+|wait for visible|Thanks for completing this typeform        |
+|click           |Create a typeform                          |
+
+
+!define API_KEY {96a5b83b3cfb12c128fa62debeb9dfb51d96a59e}
+
+|script   |json http test                              |
+|set value|${API_KEY}     |for|key                     |
+|set value|true           |for|completed               |
+|set value|10             |for|limit                   |
+|get from |https://api.typeform.com/v1/form/${FORM_UID}|
+|check    |response status|200                         |
+|show     |response                                    |
+|check|json path|stats.responses.total|> 0|
+|check|json path|stats.responses.completed|> 0|
+|check|json path|stats.responses.showing|0 < _ <= 10|
+
+
+|script   |json http test                   |
+|set value|${API_KEY}     |for|key          |
+|get from |https://api.typeform.com/v1/forms|
+|check    |response status|200              |
+|show     |response                         |
