@@ -1,12 +1,19 @@
-!define FORM_UID {fdx32Y}
+In this test we will fill in a form and afterwards check that our responses have been properly recorded.
+To ensure we check the right results we will use a random name, which we will later use to filter the response from this test run from all responses received.
+
+We define a random name, and comment.
 
 |script     |string fixture                  |
+|$myName=   |value of|!randomString (5)      |
 |$myComment=|value of|More !randomString (10)|
+
+
+!define FORM_UID {fdx32Y}
 
 |storyboard      |browser test                                          |
 |open            |https://fhoeben.typeform.com/to/${FORM_UID}           |
 |click           |Start                                                 |
-|type            |Fried                                                 |
+|type            |$myName                                               |
 |press           |enter                                                 |
 |type            |example.com                                           |
 |click           |Ok                                                    |
@@ -45,6 +52,7 @@
 |show           |json path      |stats.responses.total                                                                                                       |
 |check          |json path      |stats.responses.completed|> 0                                                                                               |
 |check          |json path      |stats.responses.showing  |0 < _ <= 10                                                                                       |
+|$name_id=      |element        |0                        |of json path|questions[?(@.question=="What's your name?")].id                                     |
 |$suggestion_id=|element        |0                        |of json path|questions[?(@.question=="Do you have any comments or suggestions for the event?")].id|
-|check          |element        |0                        |of json path|responses[-1:].answers.$suggestion_id|$myComment                                     |
+|check          |element        |0                        |of json path|responses[?(@.answers.$name_id=="$myName")].answers.$suggestion_id|$myComment        |
 
