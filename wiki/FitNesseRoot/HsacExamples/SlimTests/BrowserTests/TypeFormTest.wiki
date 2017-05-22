@@ -28,21 +28,21 @@
 !define API_KEY {96a5b83b3cfb12c128fa62debeb9dfb51d96a59e}
 
 |script   |json http test                   |
-|set value|${API_KEY}         |for   |key   |
+|set value|${API_KEY}     |for|key          |
 |get from |https://api.typeform.com/v1/forms|
-|check    |response status    |200          |
+|check    |response status|200              |
 |show     |response                         |
 
-|script         |json http test                                                                                                   |
-|set value      |${API_KEY}     |for                                                                                  |key        |
-|set value      |true           |for                                                                                  |completed  |
-|set value      |10             |for                                                                                  |limit      |
-|get from       |https://api.typeform.com/v1/form/${FORM_UID}                                                                     |
-|check          |response status|200                                                                                              |
-|show           |response                                                                                                         |
-|show           |json path      |stats.responses.total                                                                            |
-|check          |json path      |stats.responses.completed                                                            |> 0        |
-|check          |json path      |stats.responses.showing                                                              |0 < _ <= 10|
-|$suggestion_id=|json path      |questions[?(@.question=="Do you have any comments or suggestions for the event?")].id|element |0 |
-|check          |json path      |responses[0].answers.$suggestion_id                                                  |More beer! |
+|script         |json http test                                                                                                                                        |
+|set value      |${API_KEY}     |for                                |key                                                                                               |
+|set value      |true           |for                                |completed                                                                                         |
+|set value      |10             |for                                |limit                                                                                             |
+|get from       |https://api.typeform.com/v1/form/${FORM_UID}                                                                                                          |
+|check          |response status|200                                                                                                                                   |
+|show           |response                                                                                                                                              |
+|show           |json path      |stats.responses.total                                                                                                                 |
+|check          |json path      |stats.responses.completed          |> 0                                                                                               |
+|check          |json path      |stats.responses.showing            |0 < _ <= 10                                                                                       |
+|$suggestion_id=|element        |0                                  |of json path|questions[?(@.question=="Do you have any comments or suggestions for the event?")].id|
+|check          |json path      |responses[0].answers.$suggestion_id|More beer!                                                                                        |
 
