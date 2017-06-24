@@ -31,3 +31,6 @@ greeting.html
 wiki/FitNesseRoot/files/fileFixture
 wiki/FitNesseRoot/files/test
 wiki/webdrivers
+/.settings/
+/.classpath
+/.project
